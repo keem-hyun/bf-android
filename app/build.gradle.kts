@@ -58,9 +58,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //view-pager
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
     implementation("com.google.accompanist:accompanist-pager:0.34.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0")
+
+    //animation
+    implementation ("androidx.compose.animation:animation:1.6.0")
 
 
 
