@@ -3,7 +3,7 @@ package umc.hackathon.presentation.ui.main.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.res.painterResource
@@ -28,6 +28,7 @@ import androidx.compose.foundation.border
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -99,7 +100,7 @@ fun HomeScreen(
             SearchBar(
                 searchText = searchText,
                 onSearchTextChange = { searchText = it },
-                onSearchClick = { /* 검색 클릭 처리 */ }
+                onSearchClick = { navController.navigate("search") }
             )
         }
 
@@ -271,7 +272,7 @@ fun HomeScreen(
                             }
                         }
                         .pointerInput(currentJobIndex) {
-                            detectDragGestures(
+                            detectHorizontalDragGestures(
                                 onDragStart = {
                                     isInCardArea = true
                                 },
@@ -279,21 +280,17 @@ fun HomeScreen(
                                     isInCardArea = false
                                 }
                             ) { change, dragAmount ->
-                                val horizontalDrag = kotlin.math.abs(dragAmount.x)
-                                val verticalDrag = kotlin.math.abs(dragAmount.y)
-
-                                // 가로 드래그가 우세한 경우에만 스와이프로 처리
-                                if (horizontalDrag > verticalDrag && horizontalDrag > 30) {
-                                    // 왼쪽으로 스와이프 (dragAmount.x < 0)
-                                    if (dragAmount.x < -50 && !isAnimating) {
+                                // 가로 드래그만 처리하므로 세로 스크롤은 자연스럽게 통과됨
+                                if (kotlin.math.abs(dragAmount) > 50 && !isAnimating) {
+                                    if (dragAmount < 0) {
+                                        // 왼쪽으로 스와이프
                                         animatingFromIndex = currentJobIndex
                                         isAnimating = true
                                         swipeDirection = -1
                                         showOldCard = false
                                         viewModel.nextJob()
-                                    }
-                                    // 오른쪽으로 스와이프 (dragAmount.x > 0)
-                                    else if (dragAmount.x > 50 && !isAnimating) {
+                                    } else {
+                                        // 오른쪽으로 스와이프
                                         animatingFromIndex = currentJobIndex
                                         isAnimating = true
                                         swipeDirection = 1
@@ -350,7 +347,8 @@ private fun JobPostingCard(
                 text = job.title,
                 style = UMCHackathonTheme.typography.Bold.copy(
                     fontSize = 22.sp,
-                    color = colors.black
+                    color = colors.black,
+                    lineHeight = 1.5.em
                 ),
                 modifier = Modifier.weight(1f)
             )
