@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,6 +28,54 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import umc.hackathon.R
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+
+
+@Preview
+@Composable
+fun SimpleButtonPreview() {
+    UMCHackathonTheme {
+        Column {
+            SimpleButton(text = "버튼", enabled = true) {
+
+            }
+
+            SimpleButton(text = "버튼", enabled = false) {
+
+            }
+        }
+    }
+}
+
+@Composable
+fun SimpleButton(
+    text: String,
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier
+            .fillMaxWidth()
+            .background(
+                color = if (enabled) UMCHackathonTheme.colorScheme.mainGreen300 else UMCHackathonTheme.colorScheme.gray300,
+                RoundedCornerShape(10.dp)
+            )
+            .clip(RoundedCornerShape(10.dp))
+            .clickable(enabled = enabled) {
+                if (enabled) onClick.invoke()
+            }
+            .padding(16.dp)
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = text, style = UMCHackathonTheme.typography.Bold.copy(
+                fontSize = 15.sp,
+                color = UMCHackathonTheme.colorScheme.white
+            )
+        )
+    }
+}
+
 
 @Composable
 @Preview
