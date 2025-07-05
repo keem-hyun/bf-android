@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">UMCHackathon</string>
     <string name="tab_home">홈</string>
-    <string name="tab_search">검색</string>
+    <string name="tab_search">채용공고</string>
     <string name="tab_mypage">마이페이지</string>
+    <string name="tab_community">커뮤니티</string>
 
 </resources>
