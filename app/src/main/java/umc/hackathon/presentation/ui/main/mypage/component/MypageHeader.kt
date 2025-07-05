@@ -39,7 +39,7 @@ fun MypageHeader(
         modifier = Modifier
             .fillMaxWidth()
             .background(color=UMCHackathonTheme.colorScheme.white)
-            .height(160.dp)
+            .height(158.dp)
             .padding(top= 24.dp)
             .clip(RoundedCornerShape(16.dp))
             .shadow(4.dp)

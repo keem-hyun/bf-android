@@ -1,6 +1,7 @@
 package umc.hackathon.core.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,8 @@ fun AutoResizeTextField(
     onValueChange: (String) -> Unit,
     placeholder: String = "",
     textStyle: TextStyle = TextStyle(fontSize = 16.sp),
-    backgroundColor: Color = Color.LightGray
+    backgroundColor: Color = Color.LightGray,
+    borderColor: Color = Color.Gray
 ) {
     BasicTextField(
         value = value,
@@ -32,8 +34,9 @@ fun AutoResizeTextField(
             .fillMaxWidth()
             .height(400.dp)
             .background(backgroundColor)
-            .padding(start = 10.dp, end = 10.dp,top=12.dp)
-            .clip(RoundedCornerShape(20.dp)),
+            .clip(RoundedCornerShape(20.dp))
+            .border(2.dp, borderColor, RoundedCornerShape(20.dp))
+        ,
         textStyle = textStyle,
         maxLines = Int.MAX_VALUE,
         decorationBox = { innerTextField ->
@@ -45,13 +48,12 @@ fun AutoResizeTextField(
     )
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
-fun viewTextField(){
+fun viewTextField() {
     AutoResizeTextField(
         value = "",
         onValueChange = {},
         placeholder = "검색어를 입력해주세요"
-
     )
 }
