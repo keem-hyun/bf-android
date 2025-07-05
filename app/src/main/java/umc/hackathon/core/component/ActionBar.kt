@@ -15,11 +15,24 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import umc.hackathon.R
 import umc.hackathon.core.designsystem.theme.Pretendard
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+
+
+@Preview
+@Composable
+fun ActionBarPreview() {
+    UMCHackathonTheme {
+        ActionBar(
+            onNotificationClick = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
 
 @Composable
 fun ActionBar(
@@ -27,7 +40,7 @@ fun ActionBar(
     modifier: Modifier = Modifier
 ) {
     val colors = UMCHackathonTheme.colorScheme
-    
+
     Column(
         modifier = modifier
     ) {
@@ -49,7 +62,8 @@ fun ActionBar(
                     text = "배프",
                     style = UMCHackathonTheme.typography.Bold.copy(
                         fontSize = 24.sp,
-                        color = colors.mainGreen300)
+                        color = colors.mainGreen300
+                    )
                 )
 
                 // Notification icon
