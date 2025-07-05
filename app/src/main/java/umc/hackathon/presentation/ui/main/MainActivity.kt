@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import umc.hackathon.presentation.ui.theme.UMCHackathonTheme
+import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

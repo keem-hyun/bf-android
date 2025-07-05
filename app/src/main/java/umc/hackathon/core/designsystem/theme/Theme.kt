@@ -1,4 +1,4 @@
-package umc.hackathon.presentation.ui.theme
+package umc.hackathon.core.designsystem.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

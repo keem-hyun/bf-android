@@ -1,4 +1,4 @@
-package umc.hackathon.presentation.ui.theme
+package umc.hackathon.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
