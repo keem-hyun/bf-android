@@ -17,6 +17,7 @@ import umc.hackathon.presentation.ui.main.jobpost.JobPostDetailScreen
 import umc.hackathon.presentation.ui.main.mypage.MypageScreen
 import umc.hackathon.presentation.ui.main.search.SearchScreen
 import umc.hackathon.presentation.ui.main.apply.JobApplyScreen
+import umc.hackathon.presentation.ui.main.mypage.ResumeScreen
 
 @Composable
 fun MainNavHost(
@@ -58,6 +59,13 @@ fun MainNavHost(
                 jobId = jobId
             )
         }
+        composable("resume_screen") {
+            ResumeScreen(
+                paddingValues = PaddingValues(),
+                navController = navController
+            )
+        }
+
     }
 }
 

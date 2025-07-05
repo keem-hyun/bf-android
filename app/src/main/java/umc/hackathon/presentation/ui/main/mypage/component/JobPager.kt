@@ -23,45 +23,43 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import umc.hackathon.core.component.JobPostListItem
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import umc.hackathon.model.JobPosting
 import kotlin.math.abs
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun JobPager() {
+fun JobPager(jobList: List<JobPosting>) {
     val pagerState = rememberPagerState()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    val jobList = listOf(1, 2, 3)
-
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         HorizontalPager(
-            count = jobList.size,
+            count = jobList.chunked(2).size, // 한 페이지에 2개씩
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 16.dp),
             itemSpacing = 12.dp,
             modifier = Modifier.height(320.dp)
         ) { page ->
-            Column(
-                modifier = Modifier
-                    .width(screenWidth - 32.dp)
-            ) {
-                JobPostListItem(
-                    "주식회사 레진엔터테인먼트", 19, "[장애인 전형] 사내카페 지원", "외식·음료 > 커피전문점",
-                    "서울특별시 강남구", "주 5일", "정규직", "월급 110만원"
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                JobPostListItem(
-                    "주식회사 레진엔터테인먼트", 19, "[장애인 전형] 사내카페 지원", "외식·음료 > 커피전문점",
-                    "서울특별시 강남구", "주 5일", "정규직", "월급 110만원"
-                )
+            val items = jobList.chunked(2)[page]
+            Column(modifier = Modifier.width(screenWidth - 32.dp)) {
+                items.forEach { job ->
+                    JobPostListItem(
+                        companyName = job.company,
+                        remainingDays = 5, // D-day는 mock으로 넣거나 계산 함수 넣어도 좋음
+                        title = job.title,
+                        category = job.category,
+                        workLocation = job.location,
+                        workHours = job.workHours,
+                        employmentType = job.contractType,
+                        salary = job.salary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
 
         Spacer(modifier = Modifier.height(4.dp))
-
 
         AnimatedPagerIndicator(
             pagerState = pagerState,
@@ -148,10 +146,11 @@ fun AnimatedPagerIndicator(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun showJobPager(){
-    UMCHackathonTheme {
-        JobPager()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun showJobPager(){
+//    UMCHackathonTheme {
+//        JobPager(
+//        )
+//    }
+//}

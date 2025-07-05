@@ -15,6 +15,8 @@ import androidx.navigation.NavController
 import kotlinx.collections.immutable.toPersistentList
 import umc.hackathon.core.component.ActionBar
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import umc.hackathon.data.datasource.MockJobPostingDataSource
+import umc.hackathon.model.JobPosting
 import umc.hackathon.presentation.ui.main.mypage.component.AddButton
 import umc.hackathon.presentation.ui.main.mypage.component.MypageHeader
 import umc.hackathon.presentation.ui.main.mypage.component.SettingSheet
@@ -27,6 +29,11 @@ fun MypageScreen(
 ) {
     val selectedIndex = remember { mutableStateOf(0) }
     val contents = listOf("1", "2").toPersistentList()
+    val jobDataSource = remember { MockJobPostingDataSource() }
+    val jobList by produceState(initialValue = emptyList<JobPosting>()) {
+        value = jobDataSource.getRecommendJobPostings()
+    }
+
 
     val mypageNavigation = MypageNavigation()
 
@@ -56,7 +63,7 @@ fun MypageScreen(
                     )
                 }
                 item {
-                    JobPager()
+                    JobPager(jobList = jobList)
                 }
                 item {
                     Text(

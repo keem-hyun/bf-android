@@ -3,6 +3,7 @@ package umc.hackathon.presentation.ui.main.mypage.component
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.DefaultTab.AlbumsTab.value
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +55,7 @@ fun InfoCard(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(170.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -97,11 +99,15 @@ fun InfoCard(
                 Spacer(modifier = Modifier.width(40.dp))
 
                 TextField(
+
                     value = age,
                     onValueChange = onAgeChange,
                     modifier = Modifier
                         .width(80.dp)
-                        .height(48.dp),
+                        .height(48.dp)
+                        .background(color= UMCHackathonTheme.colorScheme.white)
+                        .clip(RoundedCornerShape(20.dp))
+                        .border(2.dp, borderColor, RoundedCornerShape(20.dp)),
                     singleLine = true
                 )
 
