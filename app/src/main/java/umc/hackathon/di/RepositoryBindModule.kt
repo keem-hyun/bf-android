@@ -7,8 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import umc.hackathon.data.repository.DefaultRegionRepository
 import umc.hackathon.data.repository.DefaultTestRepository
 import umc.hackathon.data.repository.JobPostingRepositoryImpl
+import umc.hackathon.data.repository.SearchHistoryRepositoryImpl
 import umc.hackathon.domain.JobPostingRepository
 import umc.hackathon.domain.RegionRepository
+import umc.hackathon.domain.SearchHistoryRepository
 import umc.hackathon.domain.TestRepository
 import javax.inject.Singleton
 
@@ -32,4 +34,10 @@ abstract class RepositoryBindModule {
     internal abstract fun bindJobPostingRepository(
         jobPostingRepositoryImpl: JobPostingRepositoryImpl
     ): JobPostingRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindSearchHistoryRepository(
+        searchHistoryRepositoryImpl: SearchHistoryRepositoryImpl
+    ): SearchHistoryRepository
 }
