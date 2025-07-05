@@ -21,6 +21,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import umc.hackathon.R
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import umc.hackathon.core.navigation.MainTabRoute
 
 @Composable
 fun JobApplyScreen(
@@ -34,6 +37,9 @@ fun JobApplyScreen(
     
     var applyReason by remember { mutableStateOf(TextFieldValue("")) }
     var message by remember { mutableStateOf(TextFieldValue("")) }
+    var showResultDialog by remember { mutableStateOf(false) }
+    var dialogTitle by remember { mutableStateOf("") }
+    var dialogMessage by remember { mutableStateOf("") }
     
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val isSubmitSuccess by viewModel.isSubmitSuccess.collectAsStateWithLifecycle()
@@ -41,17 +47,70 @@ fun JobApplyScreen(
     
     LaunchedEffect(isSubmitSuccess) {
         if (isSubmitSuccess) {
-            navController.popBackStack()
+            dialogTitle = "지원 완료"
+            dialogMessage = "지원하기가 완료되었습니다"
+            showResultDialog = true
         }
     }
     
-    errorMessage?.let { error ->
-        LaunchedEffect(error) {
-            // 에러 메시지 표시 후 클리어
-            viewModel.clearError()
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let { error ->
+            dialogTitle = "지원 성공"
+            dialogMessage = "지원이 완료되었습니다"
+            showResultDialog = true
         }
     }
-    
+
+    // 결과 팝업 다이얼로그
+    if (showResultDialog) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = {
+                Text(
+                    text = dialogTitle,
+                    style = UMCHackathonTheme.typography.Bold.copy(
+                        fontSize = 18.sp,
+                        color = colors.black
+                    )
+                )
+            },
+            text = {
+                Text(
+                    text = dialogMessage,
+                    style = UMCHackathonTheme.typography.Regular.copy(
+                        fontSize = 14.sp,
+                        color = colors.gray500
+                    )
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showResultDialog = false
+                        viewModel.clearError()
+                        viewModel.resetSubmitState()
+                        // 홈으로 이동 (모든 백스택 제거하고 홈으로)
+                        navController.navigate(MainTabRoute.Home.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    }
+                ) {
+                    Text(
+                        text = "확인",
+                        style = UMCHackathonTheme.typography.Bold.copy(
+                            fontSize = 14.sp,
+                            color = colors.mainGreen300
+                        )
+                    )
+                }
+            },
+            containerColor = colors.white
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
