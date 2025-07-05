@@ -1,4 +1,4 @@
-package umc.hackathon.ui.theme
+package umc.hackathon.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
