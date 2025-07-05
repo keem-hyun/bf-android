@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import umc.hackathon.core.designsystem.theme.HackathonColorScheme
 import umc.hackathon.core.designsystem.theme.LocalHackathonColorScheme
+import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 import umc.hackathon.core.navigation.MainTabRoute
 import umc.hackathon.core.ui.noripple.noRippleClickable
 
@@ -85,3 +87,4 @@ private fun BottomBarItem(
         )
     }
 }
+
