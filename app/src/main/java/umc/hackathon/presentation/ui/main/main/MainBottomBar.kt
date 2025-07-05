@@ -40,15 +40,17 @@ fun MainBottomBar(
                 .padding(vertical = 8.dp)
                 .navigationBarsPadding()
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
         ) {
             tabs.forEach { tab ->
-                BottomBarItem(
-                    tab = tab,
-                    isSelected = tab == currentTab,
-                    onClick = { onTabSelected(tab) }
-                )
+                Row(Modifier
+                    .fillMaxWidth()
+                    .weight(1f), horizontalArrangement = Arrangement.Center) {
+                    BottomBarItem(
+                        tab = tab,
+                        isSelected = tab == currentTab,
+                        onClick = { onTabSelected(tab) }
+                    )
+                }
             }
         }
     }
