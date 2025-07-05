@@ -4,7 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,9 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import umc.hackathon.core.designsystem.theme.HackathonColorScheme
+import umc.hackathon.core.designsystem.theme.LocalHackathonColorScheme
 import umc.hackathon.core.navigation.MainTabRoute
+import umc.hackathon.core.ui.noripple.noRippleClickable
 
 @Composable
 fun MainBottomBar(
@@ -54,22 +60,26 @@ private fun BottomBarItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val iconRes = if (isSelected) tab.selectedIcon else tab.unselectedIcon
+    val iconResId = if (isSelected) tab.selectedIcon else tab.unselectedIcon
+    val colors = LocalHackathonColorScheme.current
+    val iconColor = if (isSelected) colors.mainGreen300 else colors.gray300
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .clickable { onClick() }
+        modifier = Modifier.noRippleClickable { onClick() }
     ) {
         Icon(
-            imageVector = Icons.Filled.Home,
+            painter = painterResource(id = iconResId),
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp),
+            tint = iconColor
         )
+        Spacer(modifier=Modifier.height(2.dp))
         Text(
             text = stringResource(id = tab.label),
-            style = MaterialTheme.typography.labelSmall
+            style = MaterialTheme.typography.labelSmall,
+            color = iconColor
         )
     }
 }
