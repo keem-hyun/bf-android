@@ -15,8 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UMCHackathon"
         tools:targetApi="31">
+
+        <activity android:name=".presentation.ui.main.main.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.UMCHackathon"
+            >
+        </activity>
         <activity
-            android:name=".presentation.ui.main.main.MainActivity"
+            android:name=".presentation.ui.main.Splash.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.UMCHackathon">
