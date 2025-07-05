@@ -250,79 +250,81 @@ fun JobRegionFilter(onSelect: (List<SelectItem>) -> Unit) {
 
         Spacer(Modifier.height(16.dp))
 
-        Text(
-            text = "근무 유형",
-            style = UMCHackathonTheme.typography.SemiBold.copy(
-                fontSize = 15.sp,
-                color = UMCHackathonTheme.colorScheme.gray600
+        Column(Modifier.padding(24.dp, 0.dp)) {
+            Text(
+                text = "근무 유형",
+                style = UMCHackathonTheme.typography.SemiBold.copy(
+                    fontSize = 15.sp,
+                    color = UMCHackathonTheme.colorScheme.gray600
+                )
             )
-        )
 
-        Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(12.dp))
 
-        val sampleItems = remember {
-            listOf(
-                SelectItem("home", "재택(비대면)"),
-                SelectItem("commute", "대면")
-            )
-        }
+            val sampleItems = remember {
+                listOf(
+                    SelectItem("home", "재택(비대면)"),
+                    SelectItem("commute", "대면")
+                )
+            }
 
-        var selectedItems by remember {
-            mutableStateOf<List<SelectItem>>(emptyList())
-        }
+            var selectedItems by remember {
+                mutableStateOf<List<SelectItem>>(emptyList())
+            }
 
-        UMCHackathonTheme {
-            GridSelectView(
-                selectItems = sampleItems,
-                selectedItems = selectedItems,
-                onClick = { clickedItem ->
-                    selectedItems = if (selectedItems.any { it.id == clickedItem.id }) {
-                        selectedItems.filter { it.id != clickedItem.id }
-                    } else {
-                        selectedItems + clickedItem
+            UMCHackathonTheme {
+                GridSelectView(
+                    selectItems = sampleItems,
+                    selectedItems = selectedItems,
+                    onClick = { clickedItem ->
+                        selectedItems = if (selectedItems.any { it.id == clickedItem.id }) {
+                            selectedItems.filter { it.id != clickedItem.id }
+                        } else {
+                            selectedItems + clickedItem
+                        }
                     }
+                )
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Text(
+                text = "근무 지역",
+                style = UMCHackathonTheme.typography.SemiBold.copy(
+                    fontSize = 15.sp,
+                    color = UMCHackathonTheme.colorScheme.gray600
+                )
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            HierarchicalSelectView(
+                parentItems = parentItems,
+                selectParentItem = selectedParent,
+                childItems = childItems,
+                selectedChildItems = selectedChildren,
+                onParentItemChange = { newParent ->
+                    selectedParent = newParent
+                    selectedChildren = emptyList()
+                },
+                onChildItemChange = { newChildren ->
+                    selectedChildren = newChildren
                 }
             )
-        }
 
-        Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(20.dp))
 
-        Text(
-            text = "근무 지역",
-            style = UMCHackathonTheme.typography.SemiBold.copy(
-                fontSize = 15.sp,
-                color = UMCHackathonTheme.colorScheme.gray600
-            )
-        )
-
-        Spacer(Modifier.height(12.dp))
-
-        HierarchicalSelectView(
-            parentItems = parentItems,
-            selectParentItem = selectedParent,
-            childItems = childItems,
-            selectedChildItems = selectedChildren,
-            onParentItemChange = { newParent ->
-                selectedParent = newParent
-                selectedChildren = emptyList()
-            },
-            onChildItemChange = { newChildren ->
-                selectedChildren = newChildren
+            SimpleButton(
+                text = "확인",
+                enabled = selectedParent != null && (selectedChildren.isNotEmpty() || childItems[selectedParent?.id].isNullOrEmpty()),
+            ) {
+                val selection = if (childItems[selectedParent?.id].isNullOrEmpty()) {
+                    listOfNotNull(selectedParent)
+                } else {
+                    selectedChildren
+                }
+                onSelect(selection)
             }
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        SimpleButton(
-            text = "확인",
-            enabled = selectedParent != null && (selectedChildren.isNotEmpty() || childItems[selectedParent?.id].isNullOrEmpty()),
-        ) {
-            val selection = if (childItems[selectedParent?.id].isNullOrEmpty()) {
-                listOfNotNull(selectedParent)
-            } else {
-                selectedChildren
-            }
-            onSelect(selection)
         }
     }
 }

@@ -128,26 +128,28 @@ fun JobTypeFilter(onSelect: (List<SelectItem>) -> Unit) {
 
         Spacer(Modifier.height(8.dp))
 
-        HierarchicalSelectView(
-            parentItems = parentItems,
-            selectParentItem = selectedParent,
-            childItems = childItems,
-            selectedChildItems = selectedChildren,
-            onParentItemChange = { newParent ->
-                selectedParent = newParent
-            },
-            onChildItemChange = { newChildren ->
-                selectedChildren = newChildren
+        Column(Modifier.padding(24.dp, 0.dp)) {
+            HierarchicalSelectView(
+                parentItems = parentItems,
+                selectParentItem = selectedParent,
+                childItems = childItems,
+                selectedChildItems = selectedChildren,
+                onParentItemChange = { newParent ->
+                    selectedParent = newParent
+                },
+                onChildItemChange = { newChildren ->
+                    selectedChildren = newChildren
+                }
+            )
+
+            Spacer(Modifier.height(20.dp))
+
+            SimpleButton(
+                text = "확인",
+                enabled = selectedParent != null && selectedChildren.isNotEmpty()
+            ) {
+                onSelect(selectedChildren)
             }
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        SimpleButton(
-            text = "확인",
-            enabled = selectedParent != null && selectedChildren.isNotEmpty()
-        ) {
-            onSelect(selectedChildren)
         }
     }
 }

@@ -24,6 +24,7 @@ import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 import umc.hackathon.presentation.ui.main.jobpost.JobPostListFilterEnum
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobRegionFilter
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobTypeFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.JobWorkHoursFilter
 import umc.hackathon.presentation.ui.main.mypage.component.InfoCard
 import umc.hackathon.presentation.ui.main.mypage.component.ResumeCard
 import umc.hackathon.presentation.ui.main.mypage.component.ResumeTopbar
@@ -36,6 +37,9 @@ fun ResumeScreen(
 ) {
     var gender by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
+
+    var minHour by remember { mutableStateOf<Int?>(null) }
+    var maxHour by remember { mutableStateOf<Int?>(null) }
 
     var showBottomSheet by remember {
         mutableStateOf(false)
@@ -80,7 +84,11 @@ fun ResumeScreen(
                 }
 
                 JobPostListFilterEnum.WORK_HOURS -> {
-
+                    JobWorkHoursFilter { min, max ->
+                        showBottomSheet = false
+                        minHour = min
+                        maxHour = max
+                    }
                 }
 
                 JobPostListFilterEnum.SALARY -> {
@@ -170,7 +178,8 @@ fun ResumeScreen(
             }
             item {
                 ResumeCard(title = "근무시간", content = "희망 근무시간을 선택해주세요", listOf()) {
-
+                    filterType = JobPostListFilterEnum.WORK_HOURS
+                    showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
