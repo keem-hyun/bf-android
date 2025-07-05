@@ -8,7 +8,7 @@ import umc.hackathon.data.datasource.DefaultRegionDataSource
 import umc.hackathon.data.datasource.DefaultTestDataSource
 import umc.hackathon.data.datasource.JobPostingDataSource
 import umc.hackathon.data.datasource.LocalSearchHistoryDataSource
-import umc.hackathon.data.datasource.MockJobPostingDataSource
+import umc.hackathon.data.datasource.RemoteJobPostingDataSource
 import umc.hackathon.data.datasource.RegionDataSource
 import umc.hackathon.data.datasource.SearchHistoryDataSource
 import umc.hackathon.data.datasource.TestDataSource
@@ -32,7 +32,7 @@ abstract class DatasourceBindModule {
     @Binds
     @Singleton
     internal abstract fun bindJobPostingDataSource(
-        jobPostingDataSourceImpl: MockJobPostingDataSource
+        jobPostingDataSourceImpl: RemoteJobPostingDataSource
     ): JobPostingDataSource
 
     @Binds
