@@ -13,6 +13,7 @@ import umc.hackathon.presentation.ui.main.community.CommunityScreen
 import umc.hackathon.presentation.ui.main.home.HomeScreen
 import umc.hackathon.presentation.ui.main.jobpost.JobPostListRoute
 import umc.hackathon.presentation.ui.main.jobpost.JobPostListScreen
+import umc.hackathon.presentation.ui.main.jobpost.JobPostDetailScreen
 import umc.hackathon.presentation.ui.main.mypage.MypageScreen
 import umc.hackathon.presentation.ui.main.search.SearchScreen
 
@@ -41,6 +42,14 @@ fun MainNavHost(
         }
         composable("search") {
             SearchScreen(paddingValues = padding, navController = navController)
+        }
+        composable("jobpost_detail/{jobId}") { backStackEntry ->
+            val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull() ?: 1
+            JobPostDetailScreen(
+                paddingValues = padding, 
+                navController = navController,
+                jobId = jobId
+            )
         }
     }
 }
