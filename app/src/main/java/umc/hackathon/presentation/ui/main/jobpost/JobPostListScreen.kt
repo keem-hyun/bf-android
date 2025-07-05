@@ -43,6 +43,7 @@ import umc.hackathon.core.component.SelectItem
 import umc.hackathon.core.component.Switch
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobRegionFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.JobTypeFilter
 import umc.hackathon.presentation.ui.main.search.SearchScreen
 
 @Preview
@@ -58,16 +59,20 @@ fun JobPostListRoute(
     paddingValues: PaddingValues,
     navController: NavController
 ) {
-    Column(Modifier
-        .fillMaxSize()
-        .padding(paddingValues)) {
-        JobPostListScreen()
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        JobPostListScreen({
+            navController.navigate("search")
+        })
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JobPostListScreen() {
+fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
     var selectedJobTypes by remember {
         mutableStateOf<List<SelectItem>>(emptyList())
     }
@@ -161,9 +166,9 @@ fun JobPostListScreen() {
                 ActionBar()
 
                 SearchBar(
-                    searchText = "",
-                    onSearchTextChange = {},
-                    onSearchClick = {},
+                    searchText = searchText,
+                    onSearchTextChange = { searchText = it },
+                    onSearchClick = { onSearchNavigate() },
                     placeholderText = "무슨 일 하고 싶으세요? 검색해볼까요?",
                     modifier = Modifier
                         .fillMaxWidth()
