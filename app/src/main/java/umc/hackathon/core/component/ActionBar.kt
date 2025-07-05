@@ -15,9 +15,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import umc.hackathon.R
+import umc.hackathon.core.designsystem.theme.HackathonColorScheme
 import umc.hackathon.core.designsystem.theme.Pretendard
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 
@@ -44,13 +46,13 @@ fun ActionBar(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Logo
-                Text(
-                    text = "배프",
-                    style = UMCHackathonTheme.typography.Bold.copy(
-                        fontSize = 24.sp,
-                        color = colors.mainGreen300)
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_main_logo),
+                    contentDescription = null,
+                    tint = Color.Unspecified
                 )
+
 
                 // Notification icon
                 IconButton(
@@ -69,4 +71,12 @@ fun ActionBar(
             }
         }
     }
-} 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ActionbarView(){
+    UMCHackathonTheme{
+        ActionBar()
+    }
+}
