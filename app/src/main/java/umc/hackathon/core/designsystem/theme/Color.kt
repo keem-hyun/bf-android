@@ -48,12 +48,12 @@ val LocalHackathonColorScheme = staticCompositionLocalOf {
 }
 
 internal val basicHackathonColorScheme = HackathonColorScheme(
-    mainGreen300 = Color(0xFF5FCF88),
-    mainGreen200 = Color(0xFF89E1B6),
-    mainGreen100 = Color(0xFFC0F0DB),
-    mainYellow300 = Color(0xFFFDF392),
-    mainYellow200 = Color(0xFFFEF8BD),
-    mainYellow100 = Color(0xFFFFFCDD),
+    mainGreen300 = Color(0xFF01D281),
+    mainGreen200 = Color(0xFF67E4B3),
+    mainGreen100 = Color(0xFFB3F2DA),
+    mainYellow300 = Color(0xFFFFF383),
+    mainYellow200 = Color(0xFFFFF8B5),
+    mainYellow100 = Color(0xFFFFFCDA),
     black = Color(0xFF101010),
     gray700 = Color(0xFF2D2D2D),
     gray600 = Color(0xFF4B4B4B),
@@ -63,6 +63,6 @@ internal val basicHackathonColorScheme = HackathonColorScheme(
     gray200 = Color(0xFFF0F0EF),
     gray100 = Color(0xFFF6F6F6),
     white = Color(0xFFFFFFFF),
-    negativeColor = Color(0xFFEC6964),
-    positiveColor = Color(0xFF6FDC83)
+    negativeColor = Color(0xFFFF5E5E),
+    positiveColor = Color(0xFF35DF79)
 )
