@@ -316,7 +316,7 @@ fun HomeScreen(
                     // 애니메이션 중에는 데이터를 숨기고, 완료 후에만 표시
                     if (!isAnimating) {
                         currentJob?.let { job ->
-                            JobPostingCard(job = job)
+                            JobPostingCard(job = job, navController = navController)
                         }
                     }
                 }
@@ -329,6 +329,7 @@ fun HomeScreen(
 @Composable
 private fun JobPostingCard(
     job: JobPosting,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val colors = UMCHackathonTheme.colorScheme
@@ -474,7 +475,7 @@ private fun JobPostingCard(
 
         // 공고 보러가기 버튼
         Button(
-            onClick = { /* 공고 보러가기 클릭 처리 */ },
+            onClick = { navController.navigate("jobpost_detail/${job.id}") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(45.dp)
