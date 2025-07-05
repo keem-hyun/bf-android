@@ -1,4 +1,4 @@
-package umc.hackathon.presentation.ui.main
+package umc.hackathon.presentation.ui.main.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
