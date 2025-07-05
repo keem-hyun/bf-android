@@ -75,7 +75,7 @@ private fun BottomBarItem(
             modifier = Modifier.size(24.dp),
             tint = iconColor
         )
-        Spacer(modifier=Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = stringResource(id = tab.label),
             style = MaterialTheme.typography.labelSmall,
