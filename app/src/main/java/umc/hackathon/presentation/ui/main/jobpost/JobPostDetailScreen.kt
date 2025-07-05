@@ -105,7 +105,10 @@ fun JobPostDetailScreen(
                             )
                             .padding(20.dp)
                     ) {
-                        JobPostDetailCard(job = jobPosting!!)
+                        JobPostDetailCard(
+                            job = jobPosting!!,
+                            onApplyClick = { navController.navigate("job_apply/${jobPosting!!.id}") }
+                        )
                     }
                 }
             }
@@ -132,6 +135,7 @@ fun JobPostDetailScreen(
 @Composable
 private fun JobPostDetailCard(
     job: JobPosting,
+    onApplyClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val colors = UMCHackathonTheme.colorScheme
@@ -269,7 +273,7 @@ private fun JobPostDetailCard(
         Spacer(modifier = Modifier.height(29.dp))
 
         Button(
-            onClick = { /* 지원하기 클릭 처리 */ },
+            onClick = onApplyClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(45.dp),

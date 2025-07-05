@@ -132,7 +132,7 @@ fun HomeScreen(
             ) {
                 Column {
                     Text(
-                        text = "홍길동님,",
+                        text = "신하람님,",
                         style = UMCHackathonTheme.typography.Bold.copy(
                             fontSize = 24.sp,
                             color = colors.black
