@@ -6,10 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import umc.hackathon.data.datasource.DefaultRegionDataSource
 import umc.hackathon.data.datasource.DefaultTestDataSource
+import umc.hackathon.data.datasource.JobPostingDataSource
+import umc.hackathon.data.datasource.MockJobPostingDataSource
 import umc.hackathon.data.datasource.RegionDataSource
 import umc.hackathon.data.datasource.TestDataSource
-import umc.hackathon.data.repository.DefaultTestRepository
-import umc.hackathon.domain.TestRepository
 import javax.inject.Singleton
 
 @Module
@@ -26,4 +26,10 @@ abstract class DatasourceBindModule {
     internal abstract fun bindRegionDataSource(
         regionDataSourceImpl: DefaultRegionDataSource
     ): RegionDataSource
+
+    @Binds
+    @Singleton
+    internal abstract fun bindJobPostingDataSource(
+        jobPostingDataSourceImpl: MockJobPostingDataSource
+    ): JobPostingDataSource
 }
