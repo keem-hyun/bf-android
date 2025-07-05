@@ -48,7 +48,12 @@ fun ActionBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_main_logo),
+                    contentDescription = null,
+                    tint = Color.Unspecified
                 )
+
 
 
                 // Notification icon
