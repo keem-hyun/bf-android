@@ -2,8 +2,10 @@ package umc.hackathon.core.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -16,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,16 +43,12 @@ fun IconCircleButton(painter: Painter, modifier: Modifier = Modifier, onClick: (
     Box(
         modifier
             .background(
-                color = UMCHackathonTheme.colorScheme.gray100,
-                shape = CircleShape
+                color = UMCHackathonTheme.colorScheme.gray100, shape = CircleShape
             )
             .clickable { onClick.invoke() }
-            .padding(10.dp)
-    ) {
+            .padding(10.dp)) {
         Image(
-            modifier = Modifier.size(18.dp),
-            painter = painter,
-            contentDescription = null
+            modifier = Modifier.size(18.dp), painter = painter, contentDescription = null
         )
     }
 }
@@ -57,37 +57,57 @@ fun IconCircleButton(painter: Painter, modifier: Modifier = Modifier, onClick: (
 @Composable
 fun DropDownStyleButtonPreview() {
     UMCHackathonTheme {
-        DropDownStyleButton("메뉴") {
+        Column {
+            DropDownStyleButton("메뉴", highlited = true) {
 
+            }
+
+            DropDownStyleButton("메뉴", highlited = false) {
+
+            }
         }
     }
 }
 
 @Composable
-fun DropDownStyleButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun DropDownStyleButton(
+    text: String, highlited: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit
+) {
     Row(
         modifier
             .background(
-                color = UMCHackathonTheme.colorScheme.gray100,
+                color = if (highlited) Color(0x33B3F2DA) else UMCHackathonTheme.colorScheme.gray100,
                 shape = RoundedCornerShape(20.dp)
             )
+            .let {
+                if (highlited) {
+                    it.border(
+                        width = 1.dp,
+                        color = UMCHackathonTheme.colorScheme.mainGreen200,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                } else {
+                    it
+                }
+            }
             .clip(RoundedCornerShape(20.dp))
             .clickable {
                 onClick.invoke()
             }
-            .padding(15.dp, 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+            .padding(15.dp, 12.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = text,
-            style = UMCHackathonTheme.typography.SemiBold.copy(
-                color = UMCHackathonTheme.colorScheme.gray500,
+            text = text, style = UMCHackathonTheme.typography.SemiBold.copy(
+                color = if (highlited) UMCHackathonTheme.colorScheme.mainGreen300 else UMCHackathonTheme.colorScheme.gray500,
                 fontSize = 15.sp
             )
         )
 
         Spacer(Modifier.width(6.dp))
 
-        Image(painter = painterResource(R.drawable.ic_down_arrow), contentDescription = null)
+        Image(
+            painter = painterResource(R.drawable.ic_down_arrow),
+            contentDescription = null,
+            colorFilter = if (highlited) ColorFilter.tint(color = UMCHackathonTheme.colorScheme.mainGreen200) else null
+        )
     }
 }
