@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -56,20 +57,20 @@ fun HierarchicalSelectViewPreview() {
     )
 
     var selectedParent by remember { mutableStateOf<SelectItem?>(null) }
-    var selectedChild by remember { mutableStateOf<SelectItem?>(null) }
+    var selectedChildren by remember { mutableStateOf<List<SelectItem>>(emptyList()) }
 
     UMCHackathonTheme {
         HierarchicalSelectView(
             parentItems = sampleParentItems,
             selectParentItem = selectedParent,
             childItems = sampleChildItems,
-            selectChildItem = selectedChild,
-            onParentItemChange = { parent ->
-                selectedParent = parent
-                selectedChild = null
+            selectedChildItems = selectedChildren,
+            onParentItemChange = { newParent ->
+                selectedParent = newParent
+                selectedChildren = emptyList()
             },
-            onChildItemChange = { child ->
-                selectedChild = child
+            onChildItemChange = { newChildren ->
+                selectedChildren = newChildren
             }
         )
     }
@@ -80,27 +81,27 @@ fun HierarchicalSelectView(
     parentItems: List<SelectItem> = emptyList(),
     selectParentItem: SelectItem? = null,
     childItems: Map<String, List<SelectItem>> = mapOf(),
-    selectChildItem: SelectItem? = null,
+    selectedChildItems: List<SelectItem> = emptyList(),
     onParentItemChange: (SelectItem?) -> Unit = {},
-    onChildItemChange: (SelectItem?) -> Unit = {}
+    onChildItemChange: (List<SelectItem>) -> Unit = {}
 ) {
-    Row(Modifier.fillMaxWidth()) {
+    Row(Modifier.fillMaxWidth().height(400.dp)) {
         LazyColumn(
             Modifier
                 .weight(1f)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            items(parentItems) {
+            items(parentItems) { item ->
                 SelectItem(
-                    selectItem = it,
-                    onClick = {
-                        onParentItemChange.invoke(it)
-                        onChildItemChange.invoke(null)
+                    selectItem = item,
+                    onClick = { clickedItem ->
+                        val newSelection = if (selectParentItem?.id == clickedItem.id) null else clickedItem
+                        onParentItemChange(newSelection)
                     },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    selected = selectParentItem?.id == it.id,
-                    washed = selectParentItem != null && selectParentItem.id != it.id
+                    selected = selectParentItem?.id == item.id,
+                    washed = selectParentItem != null && selectParentItem.id != item.id
                 )
             }
         }
@@ -113,50 +114,27 @@ fun HierarchicalSelectView(
         ) {
             if (selectParentItem != null)
                 items(childItems[selectParentItem.id] ?: emptyList()) { childItem ->
+                    val isSelected = selectedChildItems.any { it.id == childItem.id }
+                    val isWashed = selectedChildItems.isNotEmpty() && !isSelected
+
                     SelectItem(
                         selectItem = childItem,
-                        onClick = {
-                            onChildItemChange.invoke(childItem)
+                        onClick = { clickedChild ->
+                            val currentSelection = selectedChildItems.toMutableList()
+                            val isAlreadySelected = currentSelection.any { it.id == clickedChild.id }
+
+                            if (isAlreadySelected) {
+                                currentSelection.removeAll { it.id == clickedChild.id }
+                            } else {
+                                currentSelection.add(clickedChild)
+                            }
+                            onChildItemChange(currentSelection)
                         },
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        selected = selectChildItem?.id == childItem.id,
-                        washed = selectChildItem != null && selectChildItem.id != childItem.id
+                        selected = isSelected,
+                        washed = isWashed
                     )
                 }
         }
-    }
-}
-
-@Composable
-internal fun SelectItem(
-    selectItem: SelectItem,
-    modifier: Modifier = Modifier,
-    onClick: (s: SelectItem) -> Unit,
-    selected: Boolean = false,
-    washed: Boolean = false
-) {
-    var baseColor =
-        if (washed) UMCHackathonTheme.colorScheme.gray300 else UMCHackathonTheme.colorScheme.gray600
-    if (selected) {
-        baseColor = UMCHackathonTheme.colorScheme.mainGreen300
-    }
-    Box(
-        modifier
-            .fillMaxWidth()
-            .border(1.dp, baseColor, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
-            .clickable {
-                onClick.invoke(selectItem)
-            }
-            .padding(12.dp)
-    ) {
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = selectItem.text,
-            style = UMCHackathonTheme.typography.Regular.copy(
-                fontSize = 15.sp,
-                color = baseColor
-            ),
-        )
     }
 }
