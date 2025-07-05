@@ -1,4 +1,4 @@
-package umc.hackathon.presentation.ui.main
+package umc.hackathon.presentation.ui.main.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import umc.hackathon.presentation.ui.main.main.component.MainBottomBar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -22,12 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UMCHackathonTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen()
             }
         }
     }

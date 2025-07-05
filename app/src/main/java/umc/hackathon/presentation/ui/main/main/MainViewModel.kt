@@ -1,4 +1,4 @@
-package umc.hackathon.presentation.ui.main
+package umc.hackathon.presentation.ui.main.main
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
