@@ -53,7 +53,11 @@ fun JobPostListRoute(
     paddingValues: PaddingValues,
     navController: NavController
 ) {
-    JobPostListScreen()
+    Column(Modifier
+        .fillMaxSize()
+        .padding(paddingValues)) {
+        JobPostListScreen()
+    }
 }
 
 @Composable

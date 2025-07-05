@@ -39,6 +39,9 @@ fun MainNavHost(
         composable(MainTabRoute.Community.route) {
             CommunityScreen(paddingValues = padding, navController = navController)
         }
+        composable("search") {
+            SearchScreen(paddingValues = padding, navController = navController)
+        }
     }
 }
 

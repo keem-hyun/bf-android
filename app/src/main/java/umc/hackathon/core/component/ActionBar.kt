@@ -1,5 +1,6 @@
 package umc.hackathon.core.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -47,10 +48,6 @@ fun ActionBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_main_logo),
-                    contentDescription = null,
-                    tint = Color.Unspecified
                 )
 
 
