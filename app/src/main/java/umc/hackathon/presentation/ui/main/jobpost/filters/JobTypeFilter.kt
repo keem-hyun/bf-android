@@ -1,7 +1,6 @@
-package umc.hackathon.presentation.ui.main.jobpost
+package umc.hackathon.presentation.ui.main.jobpost.filters
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import umc.hackathon.core.component.GridSelectView
 import umc.hackathon.core.component.HierarchicalSelectView
 import umc.hackathon.core.component.SelectItem
 import umc.hackathon.core.component.SimpleButton
