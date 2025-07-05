@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -150,6 +151,7 @@ internal fun SelectItem(
             .padding(12.dp)
     ) {
         Text(
+            modifier = Modifier.align(Alignment.Center),
             text = selectItem.text,
             style = UMCHackathonTheme.typography.Regular.copy(
                 fontSize = 15.sp,
