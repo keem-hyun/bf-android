@@ -61,6 +61,7 @@ fun MypageScreen(
                         modifier = Modifier.padding(start = 16.dp, top = 16.dp),
                         style = UMCHackathonTheme.typography.Bold
                     )
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
                 item {
                     JobPager(jobList = jobList)
