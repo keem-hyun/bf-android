@@ -90,6 +90,7 @@ fun ResumeTopbar(
                         color = UMCHackathonTheme.colorScheme.white,
                         style = UMCHackathonTheme.typography.Bold.copy(fontSize = 28.sp)
                     )
+                    Spacer(Modifier.height(4.dp))
                     Text(
                         text = "이력서에 들어갈 정보를 입력해주세요!",
                         color = UMCHackathonTheme.colorScheme.white,
@@ -97,13 +98,13 @@ fun ResumeTopbar(
                     )
 
                 }
-                Icon(
+                /*Icon(
                     painter = painterResource(
                         id = R.drawable.ic_resume_button
                     ),
                     contentDescription = null,
                     tint = Color.Unspecified
-                )
+                )*/
 
             }
 

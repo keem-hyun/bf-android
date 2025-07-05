@@ -7,4 +7,6 @@ enum class JobPostListFilterEnum {
     WORK_HOURS,
     SALARY,
     EMPLOYMENT_TYPE,
+    ACADEMIC_ABILITY,
+    DISABILITY_TYPE
 }

@@ -27,7 +27,7 @@ fun MypageScreen(
     paddingValues: PaddingValues,
     navController: NavController,
 ) {
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableIntStateOf(0) }
     val contents = listOf("1", "2").toPersistentList()
     val jobDataSource = remember { MockJobPostingDataSource() }
     val jobList by produceState(initialValue = emptyList<JobPosting>()) {
