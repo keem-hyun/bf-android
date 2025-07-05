@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,11 +35,14 @@ import androidx.navigation.NavController
 import umc.hackathon.R
 import umc.hackathon.core.component.ActionBar
 import umc.hackathon.core.component.DropDownStyleButton
+import umc.hackathon.core.component.GenericBottomSheet
 import umc.hackathon.core.component.IconCircleButton
 import umc.hackathon.core.component.JobPostListItem
 import umc.hackathon.core.component.SearchBar
+import umc.hackathon.core.component.SelectItem
 import umc.hackathon.core.component.Switch
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import umc.hackathon.presentation.ui.main.jobpost.filters.JobRegionFilter
 import umc.hackathon.presentation.ui.main.search.SearchScreen
 
 @Preview
@@ -56,8 +61,22 @@ fun JobPostListRoute(
     JobPostListScreen()
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobPostListScreen() {
+    var selectedJobTypes by remember {
+        mutableStateOf<List<SelectItem>>(emptyList())
+    }
+
+    var selectedRegions by remember {
+        mutableStateOf<List<SelectItem>>(emptyList())
+    }
+
+
+    var filterType by remember {
+        mutableStateOf(JobPostListFilterEnum.NONE)
+    }
+
     var searchText by remember {
         mutableStateOf("")
     }
@@ -65,6 +84,55 @@ fun JobPostListScreen() {
     var personalized by remember {
         mutableStateOf(false)
     }
+
+    var showBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
+    GenericBottomSheet(
+        containerColor = UMCHackathonTheme.colorScheme.white,
+        showBottomSheet = showBottomSheet,
+        onDismiss = {
+            showBottomSheet = false
+        },
+        content = {
+            when (filterType) {
+                JobPostListFilterEnum.NONE -> {
+                    Text(
+                        text = "필터를 선택해주세요.",
+                        modifier = Modifier.padding(16.dp),
+                        style = UMCHackathonTheme.typography.Bold
+                    )
+                }
+
+                JobPostListFilterEnum.JOB_TYPE -> {
+                    JobTypeFilter {
+                        selectedJobTypes = it
+                        showBottomSheet = false
+                    }
+                }
+
+                JobPostListFilterEnum.REGION -> {
+                    JobRegionFilter {
+                        selectedRegions = it
+                        showBottomSheet = false
+                    }
+                }
+
+                JobPostListFilterEnum.WORK_HOURS -> {
+
+                }
+
+                JobPostListFilterEnum.SALARY -> {
+
+                }
+
+                JobPostListFilterEnum.EMPLOYMENT_TYPE -> {
+
+                }
+            }
+        }
+    )
 
     Column(
         Modifier
@@ -115,12 +183,74 @@ fun JobPostListScreen() {
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(5.dp)
                         ) {
-                            items(5) {
-                                DropDownStyleButton(
-                                    text = "직종",
-                                    highlited = false
-                                ) {
+                            item {
+                                if (selectedJobTypes.isEmpty()) {
+                                    // 선택된 항목이 없을 때
+                                    DropDownStyleButton(
+                                        text = "직종",
+                                        highlited = false,
+                                    ) {
+                                        filterType = JobPostListFilterEnum.JOB_TYPE
+                                        showBottomSheet = true
+                                    }
+                                } else {
+                                    // 선택된 항목이 1개 이상일 때
+                                    val buttonText = when (val count = selectedJobTypes.size) {
+                                        1 -> selectedJobTypes.first().text // 1개일 경우, 해당 항목의 텍스트를 그대로 사용
+                                        2 -> selectedJobTypes.joinToString(" · ") { it.text } // 2개일 경우, 중간점(·)으로 연결
+                                        else -> "직종 $count" // 3개 이상일 경우, "직종"과 개수를 표시
+                                    }
 
+                                    DropDownStyleButton(
+                                        text = buttonText,
+                                        highlited = true,
+                                    ) {
+                                        filterType = JobPostListFilterEnum.JOB_TYPE
+                                        showBottomSheet = true
+                                    }
+                                }
+                            }
+                            item {
+                                if (selectedRegions.isEmpty()) {
+                                    // 선택된 지역이 없을 때
+                                    DropDownStyleButton(
+                                        text = "지역",
+                                        highlited = false,
+                                    ) {
+                                        filterType = JobPostListFilterEnum.REGION
+                                        showBottomSheet = true
+                                    }
+                                } else {
+                                    // 선택된 지역이 1개 이상일 때
+                                    val buttonText = when (val count = selectedRegions.size) {
+                                        1 -> selectedRegions.first().text // 1개일 경우: 지역명 (예: "서울")
+                                        2 -> selectedRegions.joinToString(" · ") { it.text } // 2개일 경우: "서울 · 경기"
+                                        else -> "지역 $count" // 3개 이상일 경우: "지역 3"
+                                    }
+
+                                    DropDownStyleButton(
+                                        text = buttonText,
+                                        highlited = true, // 항목이 선택되었으므로 highlited는 true로 설정
+                                    ) {
+                                        filterType = JobPostListFilterEnum.REGION
+                                        showBottomSheet = true
+                                    }
+                                }
+                            }
+
+                            item {
+                                DropDownStyleButton(
+                                    text = "근무시간",
+                                    highlited = false,
+                                ) {
+                                }
+                            }
+
+                            item {
+                                DropDownStyleButton(
+                                    text = "월급",
+                                    highlited = false,
+                                ) {
                                 }
                             }
                         }
