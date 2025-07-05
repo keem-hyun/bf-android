@@ -24,7 +24,7 @@ fun AutoResizeTextField(
     onValueChange: (String) -> Unit,
     placeholder: String = "",
     textStyle: TextStyle = TextStyle(fontSize = 16.sp),
-    backgroundColor: Color = Color.LightGray,
+    backgroundColor: Color = Color.White,
     borderColor: Color = Color.Gray
 ) {
     BasicTextField(
@@ -41,7 +41,10 @@ fun AutoResizeTextField(
         maxLines = Int.MAX_VALUE,
         decorationBox = { innerTextField ->
             if (value.isEmpty()) {
-                Text(text = placeholder, style = textStyle.copy(color = Color.Gray))
+                Text(text = placeholder, style = textStyle.copy(color = Color.Gray)
+                , modifier = Modifier
+                        .padding(start=16.dp,top =16.dp
+                ))
             }
             innerTextField()
         }
