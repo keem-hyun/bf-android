@@ -1,6 +1,5 @@
 package umc.hackathon.core.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -46,10 +45,11 @@ fun ActionBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Logo
-                Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
-                    contentDescription = "배프 로고",
-                    modifier = Modifier.width(67.dp).height(30.dp)
+                Text(
+                    text = "배프",
+                    style = UMCHackathonTheme.typography.Bold.copy(
+                        fontSize = 24.sp,
+                        color = colors.mainGreen300)
                 )
 
                 // Notification icon
