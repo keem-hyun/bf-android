@@ -9,6 +9,10 @@ class MockJobPostingDataSource @Inject constructor() : JobPostingDataSource {
         return mockJobPostings
     }
     
+    override suspend fun getDetailJobPosting(id: Int): JobPosting? {
+        return mockJobPostings.find { it.id == id }
+    }
+    
     companion object {
         private val mockJobPostings = listOf(
             JobPosting(

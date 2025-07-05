@@ -12,4 +12,8 @@ class JobPostingRepositoryImpl @Inject constructor(
     override suspend fun getRecommendJobPostings(): List<JobPosting> {
         return dataSource.getRecommendJobPostings()
     }
+    
+    override suspend fun getDetailJobPosting(id: Int): JobPosting? {
+        return dataSource.getDetailJobPosting(id)
+    }
 }
