@@ -59,6 +59,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0")
+
 
 
     implementation(libs.hilt.android)
