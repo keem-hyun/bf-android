@@ -98,6 +98,17 @@ fun JobPostListScreen(
     var personalized by remember {
         mutableStateOf(false)
     }
+    
+    // 프로필 기반 추천 필터 조건들
+    val recommendedJobTypes = listOf(
+        SelectItem("재택근무", "재택근무"),
+        SelectItem("정규직", "정규직")
+    )
+    
+    val recommendedRegions = listOf(
+        SelectItem("서울", "서울"),
+        SelectItem("재택근무", "재택근무")
+    )
 
     var showBottomSheet by remember {
         mutableStateOf(false)
@@ -306,8 +317,16 @@ fun JobPostListScreen(
 
             Spacer(Modifier.width(10.dp))
 
-            Switch(personalized, {
-                personalized = it
+            Switch(personalized, { isEnabled ->
+                personalized = isEnabled
+                // 프로필 기반 추천이 켜지면 추천 태그들을 적용
+                if (isEnabled) {
+                    selectedJobTypes = recommendedJobTypes
+                    selectedRegions = recommendedRegions
+                } else {
+                    selectedJobTypes = emptyList()
+                    selectedRegions = emptyList()
+                }
             })
         }
 
@@ -315,8 +334,29 @@ fun JobPostListScreen(
             contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            val mockJobPostings = MockJobPostingDataSource.getMockJobPostings()
-            items(mockJobPostings) { jobPosting ->
+            val allJobPostings = MockJobPostingDataSource.getMockJobPostings()
+            
+            // 프로필 기반 추천 필터 적용
+            val filteredJobPostings = if (personalized) {
+                // 추천 시나리오: 재택근무 + 정규직/계약직 + 특정 지역 우선
+                allJobPostings.filter { jobPosting ->
+                    jobPosting.location.contains("재택근무") || 
+                    jobPosting.contractType == "정규직" ||
+                    jobPosting.location.contains("서울")
+                }.sortedByDescending { jobPosting ->
+                    // 우선순위: 재택근무 > 정규직 > 서울 지역
+                    when {
+                        jobPosting.location.contains("재택근무") -> 3
+                        jobPosting.contractType == "정규직" -> 2
+                        jobPosting.location.contains("서울") -> 1
+                        else -> 0
+                    }
+                }
+            } else {
+                allJobPostings
+            }
+            
+            items(filteredJobPostings) { jobPosting ->
                 JobPostListItem(
                     companyName = jobPosting.company,
                     remainingDays = jobPosting.id,
