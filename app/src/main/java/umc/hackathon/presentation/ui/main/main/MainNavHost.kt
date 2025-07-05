@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import umc.hackathon.core.navigation.MainTabRoute
+import umc.hackathon.presentation.ui.main.community.CommunityScreen
 import umc.hackathon.presentation.ui.main.home.HomeScreen
 import umc.hackathon.presentation.ui.main.mypage.MypageScreen
 import umc.hackathon.presentation.ui.main.search.SearchScreen
@@ -32,6 +33,9 @@ fun MainNavHost(
         }
         composable(MainTabRoute.Mypage.route) {
             MypageScreen(paddingValues = padding, navController = navController)
+        }
+        composable(MainTabRoute.Community.route) {
+            CommunityScreen(paddingValues = padding, navController = navController)
         }
     }
 }
