@@ -16,6 +16,7 @@ import umc.hackathon.presentation.ui.main.jobpost.JobPostListScreen
 import umc.hackathon.presentation.ui.main.jobpost.JobPostDetailScreen
 import umc.hackathon.presentation.ui.main.mypage.MypageScreen
 import umc.hackathon.presentation.ui.main.search.SearchScreen
+import umc.hackathon.presentation.ui.main.apply.JobApplyScreen
 
 @Composable
 fun MainNavHost(
@@ -37,16 +38,22 @@ fun MainNavHost(
         composable(MainTabRoute.Mypage.route) {
             MypageScreen(paddingValues = padding, navController = navController)
         }
-        composable(MainTabRoute.Community.route) {
-            CommunityScreen(paddingValues = padding, navController = navController)
-        }
         composable("search") {
             SearchScreen(paddingValues = padding, navController = navController)
         }
+
         composable("jobpost_detail/{jobId}") { backStackEntry ->
             val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull() ?: 1
             JobPostDetailScreen(
                 paddingValues = padding, 
+                navController = navController,
+                jobId = jobId
+            )
+        }
+        composable("job_apply/{jobId}") { backStackEntry ->
+            val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull() ?: 1
+            JobApplyScreen(
+                paddingValues = padding,
                 navController = navController,
                 jobId = jobId
             )
