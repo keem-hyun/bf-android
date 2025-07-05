@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import umc.hackathon.data.repository.DefaultRegionRepository
 import umc.hackathon.data.repository.DefaultTestRepository
+import umc.hackathon.data.repository.JobPostingRepositoryImpl
+import umc.hackathon.domain.JobPostingRepository
 import umc.hackathon.domain.RegionRepository
 import umc.hackathon.domain.TestRepository
 import javax.inject.Singleton
@@ -24,4 +26,10 @@ abstract class RepositoryBindModule {
     internal abstract fun bindRegionRepository(
         regionRepositoryImpl: DefaultRegionRepository
     ): RegionRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindJobPostingRepository(
+        jobPostingRepositoryImpl: JobPostingRepositoryImpl
+    ): JobPostingRepository
 }
