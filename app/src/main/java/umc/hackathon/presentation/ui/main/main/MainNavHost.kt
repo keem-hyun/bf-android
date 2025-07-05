@@ -16,6 +16,7 @@ import umc.hackathon.presentation.ui.main.jobpost.JobPostListScreen
 import umc.hackathon.presentation.ui.main.jobpost.JobPostDetailScreen
 import umc.hackathon.presentation.ui.main.mypage.MypageScreen
 import umc.hackathon.presentation.ui.main.search.SearchScreen
+import umc.hackathon.presentation.ui.main.apply.JobApplyScreen
 
 @Composable
 fun MainNavHost(
@@ -47,6 +48,14 @@ fun MainNavHost(
             val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull() ?: 1
             JobPostDetailScreen(
                 paddingValues = padding, 
+                navController = navController,
+                jobId = jobId
+            )
+        }
+        composable("job_apply/{jobId}") { backStackEntry ->
+            val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull() ?: 1
+            JobApplyScreen(
+                paddingValues = padding,
                 navController = navController,
                 jobId = jobId
             )
