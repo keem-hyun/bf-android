@@ -81,11 +81,6 @@ fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
         mutableStateOf<List<SelectItem>>(emptyList())
     }
 
-
-    var filterType by remember {
-        mutableStateOf(JobPostListFilterEnum.NONE)
-    }
-
     var searchText by remember {
         mutableStateOf("")
     }
@@ -96,6 +91,10 @@ fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
 
     var showBottomSheet by remember {
         mutableStateOf(false)
+    }
+
+    var filterType by remember {
+        mutableStateOf(JobPostListFilterEnum.NONE)
     }
 
     GenericBottomSheet(
@@ -137,6 +136,14 @@ fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
                 }
 
                 JobPostListFilterEnum.EMPLOYMENT_TYPE -> {
+
+                }
+
+                JobPostListFilterEnum.ACADEMIC_ABILITY -> {
+
+                }
+
+                JobPostListFilterEnum.DISABILITY_TYPE -> {
 
                 }
             }
