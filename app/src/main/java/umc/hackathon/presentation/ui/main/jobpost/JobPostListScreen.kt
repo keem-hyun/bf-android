@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +43,7 @@ import umc.hackathon.core.component.SearchBar
 import umc.hackathon.core.component.SelectItem
 import umc.hackathon.core.component.Switch
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
+import umc.hackathon.data.datasource.MockJobPostingDataSource
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobRegionFilter
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobTypeFilter
 import umc.hackathon.presentation.ui.main.search.SearchScreen
@@ -64,15 +66,23 @@ fun JobPostListRoute(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        JobPostListScreen({
-            navController.navigate("search")
-        })
+        JobPostListScreen(
+            onSearchNavigate = {
+                navController.navigate("search")
+            },
+            onJobPostClick = { jobId ->
+                navController.navigate("jobpost_detail/$jobId")
+            }
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
+fun JobPostListScreen(
+    onSearchNavigate: () -> Unit = {},
+    onJobPostClick: (Int) -> Unit = {}
+) {
     var selectedJobTypes by remember {
         mutableStateOf<List<SelectItem>>(emptyList())
     }
@@ -305,10 +315,18 @@ fun JobPostListScreen(onSearchNavigate: () -> Unit = {}) {
             contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(10) { index ->
+            val mockJobPostings = MockJobPostingDataSource.getMockJobPostings()
+            items(mockJobPostings) { jobPosting ->
                 JobPostListItem(
-                    "주식회사 레진엔터테인먼트", 19, "[장애인 전형] 사내카페 지원", "외식·음료 > 커피전문점",
-                    "서울특별시 강남구", "주 5일", "정규직", "월급 110만원"
+                    companyName = jobPosting.company,
+                    remainingDays = jobPosting.id,
+                    title = jobPosting.title,
+                    category = jobPosting.category,
+                    workLocation = jobPosting.location,
+                    workHours = jobPosting.workHours,
+                    employmentType = jobPosting.contractType,
+                    salary = jobPosting.salary,
+                    onClick = { onJobPostClick(jobPosting.id) }
                 )
             }
         }
