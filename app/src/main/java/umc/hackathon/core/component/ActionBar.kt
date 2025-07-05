@@ -23,10 +23,7 @@ import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 
 @Composable
 fun ActionBar(
-    searchText: String,
-    onSearchTextChange: (String) -> Unit,
     onNotificationClick: () -> Unit = {},
-    onSearchClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val colors = UMCHackathonTheme.colorScheme
@@ -70,48 +67,6 @@ fun ActionBar(
                     )
                 }
             }
-
-            // Search bar
-            OutlinedTextField(
-                value = searchText,
-                onValueChange = onSearchTextChange,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 17.dp, vertical = 17.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFFFFFCDA),
-                                Color(0xFFB3F2DA)
-                            )
-                        ),
-                        shape = RoundedCornerShape(18.dp)
-                    ),
-                placeholder = {
-                    Text(
-                        "무슨 일 하고 싶으세요? 검색해볼까요?",
-                        style = UMCHackathonTheme.typography.Regular.copy(
-                            fontSize = 15.sp,
-                            color = colors.gray500)
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = onSearchClick) {
-                        Icon(
-                            Icons.Default.Search,
-                            contentDescription = "검색",
-                            tint = colors.mainGreen300
-                        )
-                    }
-                },
-                shape = RoundedCornerShape(18.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = colors.mainGreen200,
-                    unfocusedBorderColor = colors.mainGreen200,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent
-                )
-            )
         }
     }
 } 
