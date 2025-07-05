@@ -16,10 +16,10 @@ fun UMCHackathonTheme(
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(
-        LocalHackathonColorScheme provides basicHackathonColorScheme
+        LocalHackathonColorScheme provides basicHackathonColorScheme,
+        LocalHackathonTypography provides basicHackathonTypography,
     ) {
         MaterialTheme(
-            typography = Typography,
             content = content
         )
     }
@@ -29,4 +29,7 @@ object UMCHackathonTheme {
     val colorScheme: HackathonColorScheme
         @Composable
         get() = LocalHackathonColorScheme.current
+    val typography: HackathonTypography
+        @Composable
+        get() = LocalHackathonTypography.current
 }
