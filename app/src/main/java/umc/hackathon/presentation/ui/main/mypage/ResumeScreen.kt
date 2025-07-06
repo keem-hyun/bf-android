@@ -1,5 +1,6 @@
 package umc.hackathon.presentation.ui.main.mypage
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,9 +23,14 @@ import umc.hackathon.core.component.SelectItem
 import umc.hackathon.core.component.SimpleButton
 import umc.hackathon.core.designsystem.theme.UMCHackathonTheme
 import umc.hackathon.presentation.ui.main.jobpost.JobPostListFilterEnum
+import umc.hackathon.presentation.ui.main.jobpost.filters.DisabilityTypeFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.EducationFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.EmploymentTypeFilter
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobRegionFilter
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobTypeFilter
 import umc.hackathon.presentation.ui.main.jobpost.filters.JobWorkHoursFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.SalaryFilter
+import umc.hackathon.presentation.ui.main.jobpost.filters.WorkHoursFilter
 import umc.hackathon.presentation.ui.main.mypage.component.InfoCard
 import umc.hackathon.presentation.ui.main.mypage.component.ResumeCard
 import umc.hackathon.presentation.ui.main.mypage.component.ResumeTopbar
@@ -35,6 +41,8 @@ fun ResumeScreen(
     paddingValues: PaddingValues,
     navController: NavController,
 ) {
+    val context = LocalContext.current
+    var content by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
 
@@ -61,6 +69,30 @@ fun ResumeScreen(
         mutableStateOf<List<SelectItem>>(emptyList())
     }
 
+    var edu by remember {
+        mutableStateOf<SelectItem?>(null)
+    }
+    var eduStatus by remember {
+        mutableStateOf<SelectItem?>(null)
+    }
+
+    var disabilityType by remember {
+        mutableStateOf<SelectItem?>(null)
+    }
+    var disabilitySeverity by remember {
+        mutableStateOf<SelectItem?>(null)
+    }
+    var employmentTypes by remember {
+        mutableStateOf<List<SelectItem>>(emptyList())
+    }
+
+    var minSalary by remember {
+        mutableStateOf<Int?>(null)
+    }
+    var maxSalary by remember {
+        mutableStateOf<Int?>(null)
+    }
+
     GenericBottomSheet(
         containerColor = UMCHackathonTheme.colorScheme.white,
         showBottomSheet = showBottomSheet,
@@ -84,19 +116,26 @@ fun ResumeScreen(
                 }
 
                 JobPostListFilterEnum.WORK_HOURS -> {
-                    JobWorkHoursFilter { min, max ->
+                    WorkHoursFilter {
                         showBottomSheet = false
-                        minHour = min
-                        maxHour = max
+                        minHour = it.start
+                        maxHour = it.endInclusive
                     }
                 }
 
                 JobPostListFilterEnum.SALARY -> {
-
+                    SalaryFilter {
+                        showBottomSheet = false
+                        minSalary = it.start
+                        maxSalary = it.endInclusive
+                    }
                 }
 
                 JobPostListFilterEnum.EMPLOYMENT_TYPE -> {
-
+                    EmploymentTypeFilter {
+                        showBottomSheet = false
+                        employmentTypes = it
+                    }
                 }
 
                 JobPostListFilterEnum.NONE -> {
@@ -104,11 +143,19 @@ fun ResumeScreen(
                 }
 
                 JobPostListFilterEnum.ACADEMIC_ABILITY -> {
-
+                    EducationFilter { education, status ->
+                        showBottomSheet = false
+                        edu = education
+                        eduStatus = status
+                    }
                 }
 
                 JobPostListFilterEnum.DISABILITY_TYPE -> {
-
+                    DisabilityTypeFilter { type: SelectItem, severity: SelectItem ->
+                        showBottomSheet = false
+                        disabilityType = type
+                        disabilitySeverity = severity
+                    }
                 }
             }
         }
@@ -171,39 +218,68 @@ fun ResumeScreen(
                 Spacer(modifier = Modifier.height(10.dp))
             }
             item {
-                ResumeCard(title = "고용형태", content = "희망 고용형태를 선택해주세요", listOf()) {
-
+                ResumeCard(title = "고용형태", content = "희망 고용형태를 선택해주세요", employmentTypes) {
+                    filterType = JobPostListFilterEnum.EMPLOYMENT_TYPE
+                    showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
             item {
-                ResumeCard(title = "근무시간", content = "희망 근무시간을 선택해주세요", listOf()) {
+                ResumeCard(
+                    title = "근무시간",
+                    content = "희망 근무시간을 선택해주세요",
+                    if (minHour != null && maxHour != null) listOf(
+                        SelectItem(
+                            "$minHour ~ $maxHour",
+                            "$minHour ~ $maxHour"
+                        )
+                    ) else listOf()
+                ) {
                     filterType = JobPostListFilterEnum.WORK_HOURS
                     showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
             item {
-                ResumeCard(title = "월급", content = "희망 월급을 선택해주세요", listOf()) {
-
+                ResumeCard(title = "월급", content = "희망 월급을 선택해주세요",  if (minSalary != null && maxSalary != null) listOf(
+                    SelectItem(
+                        "$minSalary ~ $maxSalary",
+                        "$minSalary ~ $maxSalary"
+                    )
+                ) else listOf()) {
+                    filterType = JobPostListFilterEnum.SALARY
+                    showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
             item {
-                ResumeCard(title = "학력", content = "현재 최종 학력을 선택해주세요", listOf()) {
-
+                ResumeCard(
+                    title = "학력",
+                    content = "현재 최종 학력을 선택해주세요",
+                    if (eduStatus != null) listOf(edu!!, eduStatus!!) else listOf()
+                ) {
+                    filterType = JobPostListFilterEnum.ACADEMIC_ABILITY
+                    showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(10.dp))
             }
-            item {
+            /*item {
                 ResumeCard(title = "경력", content = "경력사항을 입력해주세요", listOf()) {
 
                 }
                 Spacer(modifier = Modifier.height(10.dp))
-            }
+            }*/
             item {
-                ResumeCard(title = "장애유형", content = "보유중인 장애유형을 선택해주세요", listOf()) {
-
+                ResumeCard(
+                    title = "장애유형",
+                    content = "보유중인 장애유형을 선택해주세요",
+                    if (disabilitySeverity != null) listOf(
+                        disabilityType!!,
+                        disabilitySeverity!!
+                    ) else listOf()
+                ) {
+                    filterType = JobPostListFilterEnum.DISABILITY_TYPE
+                    showBottomSheet = true
                 }
                 Spacer(modifier = Modifier.height(40.dp))
             }
@@ -215,8 +291,12 @@ fun ResumeScreen(
             }
             item {
                 AutoResizeTextField(
-                    value = "",
-                    onValueChange = {},
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = content,
+                    onValueChange = {
+                        content = it
+                    },
                     placeholder = "본인을 어필할 수 있는 내용을 입력해주세요\n (ex: 자격증, 대외활동, 봉사 등)"
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -225,7 +305,10 @@ fun ResumeScreen(
                 SimpleButton(
                     text = "저장",
                     enabled = true
-                ) { }
+                ) {
+                    Toast.makeText(context, "이력서가 저장되었습니다", Toast.LENGTH_SHORT).show()
+                    navController.navigateUp()
+                }
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
